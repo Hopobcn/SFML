@@ -30,7 +30,7 @@
 #include <dlfcn.h>
 #define VK_USE_PLATFORM_XLIB_KHR
 #define VK_NO_PROTOTYPES
-#include <vulkan.h>
+#include <vulkan/vulkan.h>
 #include <string>
 #include <map>
 #include <cstring>

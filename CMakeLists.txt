@@ -57,6 +57,9 @@ set(VERSION_MAJOR 2)
 set(VERSION_MINOR 5)
 set(VERSION_PATCH 1)
 
+include(${CMAKE_BINARY_DIR}/conan_paths.cmake)
+set(CMAKE_VERBOSE_MAKEFILE ON)
+
 # add an option for choosing the build type (shared or static)
 if(NOT (SFML_OS_IOS OR SFML_OS_ANDROID))
     sfml_set_option(BUILD_SHARED_LIBS TRUE BOOL "TRUE to build SFML as shared libraries, FALSE to build it as static libraries")

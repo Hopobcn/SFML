@@ -280,7 +280,8 @@ function(sfml_add_test target SOURCES DEPENDS)
 
     # link the target to its SFML dependencies
     if(DEPENDS)
-        target_link_libraries(${target} PRIVATE ${DEPENDS})
+        find_package(Catch2 REQUIRED)
+        target_link_libraries(${target} PRIVATE ${DEPENDS} Catch2::Catch2)
     endif()
     
     # Add the test
@@ -357,7 +358,7 @@ function(sfml_find_package)
         message(FATAL_ERROR "Unknown arguments when calling sfml_import_library: ${THIS_UNPARSED_ARGUMENTS}")
     endif()
 
-    set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/Modules/")
+    set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/Modules/" ${CMAKE_MODULE_PATH})
     if (SFML_OS_IOS)
         find_host_package(${target} REQUIRED)
     else()

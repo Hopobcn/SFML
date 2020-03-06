@@ -231,8 +231,9 @@ sfml_add_library(sfml-window
                  SOURCES ${SRC} ${PLATFORM_SRC})
 target_link_libraries(sfml-window PUBLIC sfml-system)
 
-# glad sources
-target_include_directories(sfml-window PRIVATE "${PROJECT_SOURCE_DIR}/extlibs/headers/glad/include")
+# glad
+find_package(glad REQUIRED)
+target_link_libraries(sfml-window PRIVATE glad::glad)
 
 # When static linking on macOS, we need to add this flag for objective C to work
 if ((NOT BUILD_SHARED_LIBS) AND SFML_OS_MACOSX)
@@ -240,7 +241,8 @@ if ((NOT BUILD_SHARED_LIBS) AND SFML_OS_MACOSX)
 endif()
 
 # Vulkan headers
-target_include_directories(sfml-window PRIVATE "${PROJECT_SOURCE_DIR}/extlibs/headers/vulkan")
+find_package(vulkan-headers REQUIRED)
+target_link_libraries(sfml-window PRIVATE vulkan-headers::vulkan-headers)
 
 # find and setup usage for external libraries
 if(SFML_OS_LINUX OR SFML_OS_FREEBSD OR SFML_OPENBSD)

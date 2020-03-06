@@ -1,7 +1,6 @@
 set(SRCROOT "${PROJECT_SOURCE_DIR}/test/src")
 
 include_directories("${PROJECT_SOURCE_DIR}/include")
-include_directories("${PROJECT_SOURCE_DIR}/extlibs/headers")
 include_directories("${SRCROOT}/TestUtilities")
 
 # System is always built

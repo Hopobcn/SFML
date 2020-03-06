@@ -92,23 +92,13 @@ sfml_add_library(sfml-graphics
 # setup dependencies
 target_link_libraries(sfml-graphics PUBLIC sfml-window)
 
-# stb_image sources
-target_include_directories(sfml-graphics PRIVATE "${PROJECT_SOURCE_DIR}/extlibs/headers/stb_image")
+# stb_image
+find_package(stb REQUIRED)
+target_link_libraries(sfml-graphics PRIVATE stb::stb)
 
-# glad sources
-target_include_directories(sfml-graphics PRIVATE "${PROJECT_SOURCE_DIR}/extlibs/headers/glad/include")
-
-# let CMake know about our additional graphics libraries paths
-if(SFML_OS_WINDOWS)
-    set(CMAKE_INCLUDE_PATH ${CMAKE_INCLUDE_PATH} "${PROJECT_SOURCE_DIR}/extlibs/headers/freetype2")
-elseif(SFML_OS_MACOSX)
-    set(CMAKE_INCLUDE_PATH ${CMAKE_INCLUDE_PATH} "${PROJECT_SOURCE_DIR}/extlibs/headers/freetype2")
-    set(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} "${PROJECT_SOURCE_DIR}/extlibs/libs-osx/Frameworks")
-elseif(SFML_OS_IOS)
-    set(CMAKE_INCLUDE_PATH ${CMAKE_INCLUDE_PATH} "${PROJECT_SOURCE_DIR}/extlibs/headers/freetype2")
-elseif(SFML_OS_ANDROID)
-    set(CMAKE_INCLUDE_PATH ${CMAKE_INCLUDE_PATH} "${PROJECT_SOURCE_DIR}/extlibs/headers/freetype2")
-endif()
+# glad
+find_package(glad REQUIRED)
+target_link_libraries(sfml-graphics PRIVATE glad::glad)
 
 # find external libraries
 if(SFML_OS_ANDROID)

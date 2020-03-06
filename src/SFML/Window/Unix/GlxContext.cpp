@@ -286,15 +286,15 @@ void GlxContext::setVerticalSyncEnabled(bool enabled)
     // We use the direct pointer to the MESA entry point instead of the alias
     // because glx.h declares the entry point as an external function
     // which would require us to link in an additional library
-    if (SF_GLAD_GLX_EXT_swap_control)
+    if (GLAD_GLX_EXT_swap_control)
     {
         glXSwapIntervalEXT(m_display, m_pbuffer ? m_pbuffer : m_window, enabled ? 1 : 0);
     }
-    else if (SF_GLAD_GLX_MESA_swap_control)
+    else if (GLAD_GLX_MESA_swap_control)
     {
         result = glXSwapIntervalMESA(enabled ? 1 : 0);
     }
-    else if (SF_GLAD_GLX_SGI_swap_control)
+    else if (GLAD_GLX_SGI_swap_control)
     {
         result = glXSwapIntervalSGI(enabled ? 1 : 0);
     }
@@ -352,7 +352,7 @@ XVisualInfo GlxContext::selectBestVisual(::Display* display, unsigned int bitsPe
             glXGetConfig(display, &visuals[i], GLX_DEPTH_SIZE,   &depth);
             glXGetConfig(display, &visuals[i], GLX_STENCIL_SIZE, &stencil);
 
-            if (SF_GLAD_GLX_ARB_multisample)
+            if (GLAD_GLX_ARB_multisample)
             {
                 glXGetConfig(display, &visuals[i], GLX_SAMPLE_BUFFERS_ARB, &multiSampling);
                 glXGetConfig(display, &visuals[i], GLX_SAMPLES_ARB,        &samples);
@@ -363,7 +363,7 @@ XVisualInfo GlxContext::selectBestVisual(::Display* display, unsigned int bitsPe
                 samples = 0;
             }
 
-            if (SF_GLAD_GLX_EXT_framebuffer_sRGB || SF_GLAD_GLX_ARB_framebuffer_sRGB)
+            if (GLAD_GLX_EXT_framebuffer_sRGB || GLAD_GLX_ARB_framebuffer_sRGB)
             {
                 glXGetConfig(display, &visuals[i], GLX_FRAMEBUFFER_SRGB_CAPABLE_ARB, &sRgb);
             }
@@ -410,7 +410,7 @@ void GlxContext::updateSettingsFromVisualInfo(XVisualInfo* visualInfo)
     glXGetConfig(m_display, visualInfo, GLX_DEPTH_SIZE,   &depth);
     glXGetConfig(m_display, visualInfo, GLX_STENCIL_SIZE, &stencil);
 
-    if (SF_GLAD_GLX_ARB_multisample)
+    if (GLAD_GLX_ARB_multisample)
     {
         glXGetConfig(m_display, visualInfo, GLX_SAMPLE_BUFFERS_ARB, &multiSampling);
         glXGetConfig(m_display, visualInfo, GLX_SAMPLES_ARB,        &samples);
@@ -421,7 +421,7 @@ void GlxContext::updateSettingsFromVisualInfo(XVisualInfo* visualInfo)
         samples = 0;
     }
 
-    if (SF_GLAD_GLX_EXT_framebuffer_sRGB || SF_GLAD_GLX_ARB_framebuffer_sRGB)
+    if (GLAD_GLX_EXT_framebuffer_sRGB || GLAD_GLX_ARB_framebuffer_sRGB)
     {
         glXGetConfig(m_display, visualInfo, GLX_FRAMEBUFFER_SRGB_CAPABLE_ARB, &sRgb);
     }
@@ -471,7 +471,7 @@ void GlxContext::createSurface(GlxContext* shared, unsigned int width, unsigned 
     XVisualInfo visualInfo = selectBestVisual(m_display, bitsPerPixel, m_settings);
 
     // Check if the shared context already exists and pbuffers are supported
-    if (shared && SF_GLAD_GLX_SGIX_pbuffer)
+    if (shared && GLAD_GLX_SGIX_pbuffer)
     {
         // There are no GLX versions prior to 1.0
         int major = 0;
@@ -631,7 +631,7 @@ void GlxContext::createContext(GlxContext* shared)
         err() << "Failed to query GLX version, limited to legacy context creation" << std::endl;
 
     // Check if glXCreateContextAttribsARB is available (requires GLX 1.3 or greater)
-    bool hasCreateContextArb = SF_GLAD_GLX_ARB_create_context && ((major > 1) || (minor >= 3));
+    bool hasCreateContextArb = GLAD_GLX_ARB_create_context && ((major > 1) || (minor >= 3));
 
     // Create the OpenGL context -- first try using glXCreateContextAttribsARB
     if (hasCreateContextArb)
@@ -679,7 +679,7 @@ void GlxContext::createContext(GlxContext* shared)
             }
 
             // Check if setting the profile is supported
-            if (SF_GLAD_GLX_ARB_create_context_profile)
+            if (GLAD_GLX_ARB_create_context_profile)
             {
                 int profile = (m_settings.attributeFlags & ContextSettings::Core) ? GLX_CONTEXT_CORE_PROFILE_BIT_ARB : GLX_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB;
                 int debug = (m_settings.attributeFlags & ContextSettings::Debug) ? GLX_CONTEXT_DEBUG_BIT_ARB : 0;
